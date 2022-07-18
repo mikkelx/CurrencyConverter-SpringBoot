@@ -1,8 +1,8 @@
 package com.example.currencyconverter.controller;
 
-import com.example.currencyconverter.exception.RateNofFoundExecption;
 import com.example.currencyconverter.exception.UnitNotFoundException;
 import com.example.currencyconverter.module.CalculatedUnit;
+import com.example.currencyconverter.module.Calculations;
 import com.example.currencyconverter.service.CalculationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,10 +15,12 @@ import java.util.List;
 @RequestMapping("/unit")
 public class CalculatedUnitController {
     private final CalculationService calculationService;
+    private final Calculations calculations;
 
     @Autowired
-    public CalculatedUnitController(CalculationService calculationService) {
+    public CalculatedUnitController(CalculationService calculationService, Calculations calculations) {
         this.calculationService = calculationService;
+        this.calculations = calculations;
     }
 
     @GetMapping("/all")
@@ -40,6 +42,8 @@ public class CalculatedUnitController {
 
     @PostMapping("/add")
     public ResponseEntity<CalculatedUnit> addUnit(@RequestBody CalculatedUnit calculatedUnit) {
+        calculatedUnit.setOutputAmount(this.calculations.calculateOutputAmount(calculatedUnit.getOutputCurrency(),
+                calculatedUnit.getInputAmount()));
         CalculatedUnit newCalculatedUnit1 = calculationService.addCalculationUnit(calculatedUnit);
         return new ResponseEntity<>(newCalculatedUnit1, HttpStatus.CREATED);
     }

@@ -2,6 +2,7 @@ package com.example.currencyconverter.module;
 
 import com.sun.istack.NotNull;
 import lombok.*;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.*;
 
@@ -19,14 +20,13 @@ public class CalculatedUnit {
     private float inputAmount;
     @NonNull
     private String inputCurrency;
-    @Transient
+    //@Transient
+
     private float outputAmount;
     @NonNull
     private String outputCurrency;
 
-
-    public Float getOutputAmount() {
-        return inputAmount*4;
+    public void setOutputAmount() {
+        this.outputAmount = 0;
     }
-
 }
