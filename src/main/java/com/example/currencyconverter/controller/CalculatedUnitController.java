@@ -1,5 +1,6 @@
 package com.example.currencyconverter.controller;
 
+import com.example.currencyconverter.exception.RateNofFoundExecption;
 import com.example.currencyconverter.exception.UnitNotFoundException;
 import com.example.currencyconverter.module.CalculatedUnit;
 import com.example.currencyconverter.service.CalculationService;
@@ -43,11 +44,16 @@ public class CalculatedUnitController {
         return new ResponseEntity<>(newCalculatedUnit1, HttpStatus.CREATED);
     }
 
-    @PutMapping("/update")
-    public ResponseEntity<CalculatedUnit> updateUnit(@RequestBody CalculatedUnit calculatedUnit) {
-        CalculatedUnit updateUnit = calculationService.updateUnit(calculatedUnit);
-        return new ResponseEntity<>(updateUnit, HttpStatus.OK);
-    }
+//    @PutMapping("/update")
+//    public void updateUnit(@RequestBody CalculatedUnit calculatedUnit) {
+//        try {
+//            calculationService.updateUnit(calculatedUnit.getId(), calculatedUnit.getInputAmount(),
+//                                          calculatedUnit.getInputCurrency(), calculatedUnit.getOutputAmount(),
+//                                          calculatedUnit.getOutputCurrency());
+//        } catch (RateNofFoundExecption e) {
+//            throw new RuntimeException(e);
+//        }
+//    }
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteUnit(@PathVariable("id") Long id) {

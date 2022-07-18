@@ -1,7 +1,9 @@
 package com.example.currencyconverter.service;
 
+import com.example.currencyconverter.exception.RateNofFoundExecption;
 import com.example.currencyconverter.exception.UnitNotFoundException;
 import com.example.currencyconverter.module.CalculatedUnit;
+import com.example.currencyconverter.module.CurrencyRates;
 import com.example.currencyconverter.repository.CalculationRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,9 +29,18 @@ public class CalculationService {
         return calculationRepo.findAll();
     }
 
-    public CalculatedUnit updateUnit(CalculatedUnit calculatedUnit) {
-        return calculationRepo.save(calculatedUnit);
-    }
+//    public void updateUnit(Long id, float inputAmount, String inputCurrency,
+//                                     float outputAmount, String outputCurrency) throws RateNofFoundExecption {
+//        CalculatedUnit calculatedUnit = calculationRepo.findCalculatedUnitByid(id).orElseThrow(() ->
+//                new RateNofFoundExecption("Rate not found"));
+//        if (inputAmount >= 0 && outputAmount >= 0) {
+//            calculatedUnit.setInputAmount(inputAmount);
+//            calculatedUnit.setOutputAmount(outputAmount);
+//            calculatedUnit.setInputCurrency(inputCurrency);
+//            calculatedUnit.setOutputCurrency(outputCurrency);
+//
+//        }
+//    }
 
     public CalculatedUnit findCalculatedUnitByid(Long id) throws UnitNotFoundException{
         return calculationRepo.findCalculatedUnitByid(id)

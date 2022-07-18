@@ -1,8 +1,7 @@
 package com.example.currencyconverter.module;
 
 import com.sun.istack.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -10,13 +9,15 @@ import javax.persistence.*;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
+@Setter
+@Getter
 public class CurrencyRates {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @NotNull
+    @NonNull
     private String currencyShortcut;
-    @NotNull
+    @NonNull
     private float rate;
 
 }

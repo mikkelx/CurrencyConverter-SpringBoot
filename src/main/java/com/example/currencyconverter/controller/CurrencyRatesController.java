@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/currencyRates")
@@ -51,14 +52,25 @@ public class CurrencyRatesController {
 
     @PostMapping("/add")
     public ResponseEntity<CurrencyRates> addCurrencyRate(@RequestBody CurrencyRates currencyRates) {
-        CurrencyRates newCurrencRate = currencyRatesService.addCurrencyRates(currencyRates);
-        return new ResponseEntity<>(newCurrencRate, HttpStatus.CREATED);
+        boolean duplicate = currencyRatesService.isDuplicate(currencyRates);
+        if(duplicate){
+//            currencyRatesService.updateRate(currencyRates);
+            return new ResponseEntity<>(HttpStatus.ALREADY_REPORTED);
+        }
+        else {
+            CurrencyRates newCurrencyRate = currencyRatesService.addCurrencyRates(currencyRates);
+            return new ResponseEntity<>(newCurrencyRate, HttpStatus.CREATED);
+        }
+
     }
 
     @PutMapping("/update")
-    public ResponseEntity<CurrencyRates> updateCurrencyRate(@RequestBody CurrencyRates currencyRates) {
-        CurrencyRates updateRate = currencyRatesService.updateRate(currencyRates);
-        return new ResponseEntity<>(currencyRates, HttpStatus.OK);
+    public void updateCurrencyRate(@RequestBody CurrencyRates currencyRates) {
+        try {
+            currencyRatesService.updateRate(currencyRates.getCurrencyShortcut(), currencyRates.getRate());
+        } catch (RateNofFoundExecption e) {
+            throw new RuntimeException(e);
+        }
     }
 
 }
